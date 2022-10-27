@@ -94,12 +94,14 @@ func push(ctx context.Context, addr string) error {
 }
 
 func run(ctx context.Context, addr string) error {
-	st := llb.Image(imageName, llb.LinuxAmd64)
+	st := llb.Image(imageName, llb.LinuxAmd64, llb.IgnoreCache)
 	st = st.Run(
 		llb.Shlex(`find /files`),
+		llb.IgnoreCache,
 	).Root()
 	st = st.Run(
 		llb.Shlex(`sleep infinity`),
+		llb.IgnoreCache,
 	).Root()
 
 	def, err := st.Marshal(ctx)
